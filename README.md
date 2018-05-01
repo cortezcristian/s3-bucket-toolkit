@@ -21,3 +21,35 @@ const bucket = new AWSBucket({
 });
 
 ```
+
+## Usage
+
+### List all buckets
+
+Get All buckets for this account
+
+```js
+bucket.getAllBuckets().then(function(res) {
+  /* Buckets => res.Buckets */
+}).catch(function(err) {
+  /* err */
+});
+
+/*
+Result:
+ {
+  Buckets:
+   [ { Name: 'my-bucket',
+       CreationDate: 2018-03-19T17:49:05.000Z } ],
+  Owner:
+   { DisplayName: 'cris',
+     ID: '...' }
+ }
+*/
+
+```
+
+### List files
+
+```
+```
