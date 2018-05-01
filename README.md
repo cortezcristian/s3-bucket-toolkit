@@ -25,7 +25,7 @@ const bucket = new AWSBucket({
 ## Usage
 
 
-### List all buckets
+### Get all buckets
 
 Get All buckets for this account
 
@@ -91,10 +91,10 @@ bucket.uploadFile({
 */
 ```
 
-### List files
+### Get All Files
 
 ```js
-bucket.listfiles().then(function(res){
+bucket.listFiles().then(function(res){
   /* res.contents => bucket contents */
 }).catch(function(err){
   /* err */
