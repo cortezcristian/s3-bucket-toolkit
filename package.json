@@ -5,7 +5,7 @@
   "main": "lib/bucket.js",
   "scripts": {
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha test"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,8 @@
   "dependencies": {
     "aws-sdk": "^2.229.1",
     "bluebird": "^3.5.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.1.1"
   }
 }
