@@ -6,6 +6,7 @@ var AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || '';
 var AWS_ACCESS_KEY_SECRET = process.env.AWS_ACCESS_KEY_SECRET || '';
 var AWS_BUCKET_REGION = process.env.AWS_BUCKET_REGION || '';
 var AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME || '';
+var AWS_BUCKET_ACL = process.env.AWS_BUCKET_ACL || 'public-read';
 
 describe('AWS Bucket', function() {
   it('fail to create new bucket instance if no params', function() {
@@ -25,10 +26,12 @@ describe('AWS Bucket', function() {
       accessKeyId: AWS_ACCESS_KEY_ID,
       secretAccessKey: AWS_ACCESS_KEY_SECRET,
       region: AWS_BUCKET_REGION,
+      bucketACL: AWS_BUCKET_ACL,
       bucketName: AWS_BUCKET_NAME
     });
 
     assert.ok(typeof bucket.S3 !== 'undefined', 'S3 instance was expected');
+    assert.equal(bucket.bucketACL, AWS_BUCKET_ACL, 'ACL should match specified');
   });
 
   it('list all buckets', function(done) {
