@@ -1,4 +1,5 @@
 # s3-bucket-version
+[![CircleCI](https://circleci.com/gh/cortezcristian/s3-bucket-version/tree/master.svg?style=svg)](https://circleci.com/gh/cortezcristian/s3-bucket-version/tree/master)
 
 S3 Bucket Version made easy
 
