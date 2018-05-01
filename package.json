@@ -1,0 +1,32 @@
+{
+  "name": "s3-bucket-version",
+  "version": "0.0.1",
+  "description": "S3 Bucket Listing and Versioning made easy",
+  "main": "lib/bucket.js",
+  "scripts": {
+    "patch-release": "npm version patch && npm publish && git push --follow-tags",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cortezcristian/s3-bucket-version.git"
+  },
+  "keywords": [
+    "S3",
+    "bucket",
+    "version",
+    "list",
+    "upload",
+    "delete"
+  ],
+  "author": "Cristian Cortez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cortezcristian/s3-bucket-version/issues"
+  },
+  "homepage": "https://github.com/cortezcristian/s3-bucket-version#readme",
+  "dependencies": {
+    "aws-sdk": "^2.229.1",
+    "bluebird": "^3.5.1"
+  }
+}
