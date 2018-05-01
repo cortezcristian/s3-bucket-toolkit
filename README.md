@@ -72,7 +72,40 @@ Result:
 */
 ```
 
+### Upload File 
+
+```js
+bucket.uploadFile({
+  filePath: './test/upload-test.txt',
+  Key: 'upload-test.txt'
+}).then(function(res){
+  /* res.url => S3 upload url */
+}).catch(function(err){
+  /* err */
+});
+```
+
 ### List files
 
 ```js
+bucket.listfiles().then(function(res){
+  /* res.contents => bucket contents */
+}).catch(function(err){
+  /* err */
+});
 ```
+
+
+### Delete Files 
+
+```js
+bucket.deleteFiles({
+    files: ['upload-test.txt']
+  }).then(function(res){
+  /* res.Deleted => Deleted contents */
+  done();
+}).catch(function(err){
+  /* err */
+});
+```
+
