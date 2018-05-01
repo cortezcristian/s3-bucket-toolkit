@@ -83,6 +83,12 @@ bucket.uploadFile({
 }).catch(function(err){
   /* err */
 });
+
+/*
+ Result:
+{ response: { ETag: '"abc.."' },
+  url: 'https://my-bucket.s3.amazonaws.com/upload-test.txt' }
+*/
 ```
 
 ### List files
@@ -93,6 +99,22 @@ bucket.listfiles().then(function(res){
 }).catch(function(err){
   /* err */
 });
+
+/*
+Result:
+{ IsTruncated: false,
+  Contents:
+   [ { Key: 'upload-test.txt',
+       LastModified: 2018-04-15T22:48:27.000Z,
+       ETag: '"abc..."',
+       Size: 26,
+       StorageClass: 'STANDARD' } ],
+  Name: 'my-bucket',
+  Prefix: '',
+  MaxKeys: 1000,
+  CommonPrefixes: [],
+  KeyCount: 1 }
+*/
 ```
 
 
@@ -107,5 +129,10 @@ bucket.deleteFiles({
 }).catch(function(err){
   /* err */
 });
+
+/*
+Result:
+{ Deleted: [ { Key: 'upload-test.txt' } ], Errors: [] }
+*/
 ```
 
