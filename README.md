@@ -24,6 +24,7 @@ const bucket = new AWSBucket({
 
 ## Usage
 
+
 ### List all buckets
 
 Get All buckets for this account
@@ -37,19 +38,41 @@ bucket.getAllBuckets().then(function(res) {
 
 /*
 Result:
- {
+{
   Buckets:
    [ { Name: 'my-bucket',
        CreationDate: 2018-03-19T17:49:05.000Z } ],
   Owner:
    { DisplayName: 'cris',
      ID: '...' }
- }
+}
 */
 
 ```
 
+### Get Upload URL
+
+Get upload URL
+
+```js
+bucket.getUploadUrl({
+  ContentType: 'application/javascript',
+  Key: 'your-dir/test.js'
+}).then(function(res){
+  /* Signed URL => res.signedUrl */
+}).catch(function(err){
+  /* err */
+});
+
+/*
+Result:
+{
+  signedUrl: 'https://your-bucket.s3.amazonaws.com/your-dir/test.js?AWSAccessKeyId=...'
+}
+*/
+```
+
 ### List files
 
-```
+```js
 ```
