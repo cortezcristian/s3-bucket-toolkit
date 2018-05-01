@@ -136,3 +136,7 @@ Result:
 */
 ```
 
+## References
+
+- [AWS Docs: listObjectVersions](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectVersions-property)
+
