@@ -1,6 +1,6 @@
 var assert = require('assert');
 var AWSBucket = require('../lib/bucket.js');
-var bucket;
+var bucket, versions;
 // Config
 var AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || '';
 var AWS_ACCESS_KEY_SECRET = process.env.AWS_ACCESS_KEY_SECRET || '';
@@ -73,6 +73,8 @@ describe('AWS Bucket', function() {
       Key: 'upload-test.txt'
     }).then(function(res){
       assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
+      // reuse when deleting file versions
+      versions = res.Versions;
       done();
     }).catch(function(err){
       done(err);
@@ -88,10 +90,29 @@ describe('AWS Bucket', function() {
     });
   });
 
+  it('delete file versions', function(done) {
+    // console.log('vers', versions);
+    bucket.deleteFilesVersioned({
+      files: [{
+        Key: 'upload-test.txt',
+        // 'null' means latest version
+        VersionId: 'null'
+      }]
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted versions were expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+
+  });
+
   it('delete file', function(done) {
     bucket.deleteFiles({
         files: ['upload-test.txt']
       }).then(function(res){
+      // console.log(res);
       assert.ok(typeof res.Deleted !== 'undefined', 'Deleted contents were expected');
       done();
     }).catch(function(err){
