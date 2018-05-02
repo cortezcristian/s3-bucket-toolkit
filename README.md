@@ -18,6 +18,7 @@ const bucket = new AWSBucket({
   accessKeyId: 'your-access-key-here',
   secretAccessKey: 'your-secret-here',
   region: 'us-east-1',
+  bucketACL: 'public-read',
   bucketName: 'my-bucket'
 });
 
