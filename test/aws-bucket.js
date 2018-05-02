@@ -75,6 +75,7 @@ describe('AWS Bucket', function() {
       assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
       // reuse when deleting file versions
       versions = res.Versions;
+      // console.log(versions);
       done();
     }).catch(function(err){
       done(err);
@@ -90,7 +91,7 @@ describe('AWS Bucket', function() {
     });
   });
 
-  it('delete file versions', function(done) {
+  it.skip('delete file versions', function(done) {
     // console.log('vers', versions);
     bucket.deleteFilesVersioned({
       files: [{
@@ -108,7 +109,7 @@ describe('AWS Bucket', function() {
 
   });
 
-  it('delete file', function(done) {
+  it.skip('delete file', function(done) {
     bucket.deleteFiles({
         files: ['upload-test.txt']
       }).then(function(res){
