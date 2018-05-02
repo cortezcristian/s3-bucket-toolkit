@@ -1,6 +1,6 @@
 {
   "name": "s3-bucket-version",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "S3 Bucket Listing and Versioning made easy",
   "main": "lib/bucket.js",
   "scripts": {
