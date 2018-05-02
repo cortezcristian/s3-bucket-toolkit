@@ -91,6 +91,20 @@ describe('AWS Bucket', function() {
     });
   });
 
+  it('delete all versions for file', function(done) {
+    // console.log('vers', versions);
+    bucket.deleteAllVersions({
+      Key: 'upload-test.txt',
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted versions were expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+
+  });
+
   it.skip('delete file versions', function(done) {
     // console.log('vers', versions);
     bucket.deleteFilesVersioned({
