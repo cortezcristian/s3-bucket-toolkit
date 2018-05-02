@@ -26,32 +26,6 @@ const bucket = new AWSBucket({
 
 ## Usage
 
-
-### Get All buckets
-
-Get All buckets for this account
-
-```js
-bucket.getAllBuckets().then(function(res) {
-  /* Buckets => res.Buckets */
-}).catch(function(err) {
-  /* err */
-});
-
-/*
-Result:
-{
-  Buckets:
-   [ { Name: 'my-bucket',
-       CreationDate: 2018-03-19T17:49:05.000Z } ],
-  Owner:
-   { DisplayName: 'cris',
-     ID: '...' }
-}
-*/
-
-```
-
 ### Get Upload URL
 
 Get upload URL
@@ -93,6 +67,33 @@ bucket.uploadFile({
 */
 ```
 
+### List Files
+
+```js
+bucket.listFiles().then(function(res){
+  /* res.contents => bucket contents */
+}).catch(function(err){
+  /* err */
+});
+
+/*
+Result:
+{ IsTruncated: false,
+  Contents:
+   [ { Key: 'upload-test.txt',
+       LastModified: 2018-04-15T22:48:27.000Z,
+       ETag: '"abc..."',
+       Size: 26,
+       StorageClass: 'STANDARD' } ],
+  Name: 'my-bucket',
+  Prefix: '',
+  MaxKeys: 1000,
+  CommonPrefixes: [],
+  KeyCount: 1 }
+*/
+```
+
+
 ### List File Versions
 
 Calls `s3.listObjectVersions` for file path Prefix
@@ -128,33 +129,6 @@ Result:
 */
 ```
 
-### List Files
-
-```js
-bucket.listFiles().then(function(res){
-  /* res.contents => bucket contents */
-}).catch(function(err){
-  /* err */
-});
-
-/*
-Result:
-{ IsTruncated: false,
-  Contents:
-   [ { Key: 'upload-test.txt',
-       LastModified: 2018-04-15T22:48:27.000Z,
-       ETag: '"abc..."',
-       Size: 26,
-       StorageClass: 'STANDARD' } ],
-  Name: 'my-bucket',
-  Prefix: '',
-  MaxKeys: 1000,
-  CommonPrefixes: [],
-  KeyCount: 1 }
-*/
-```
-
-
 ### Delete Files 
 
 ```js
@@ -172,6 +146,92 @@ Result:
 { Deleted: [ { Key: 'upload-test.txt' } ], Errors: [] }
 */
 ```
+
+### Delete All Versions from a Single File
+
+Delete all versions for a given file
+
+```js
+bucket.deleteAllVersions({
+  Key: 'upload-test.txt',
+}).then(function(res){
+  /* res.Deleted => Deleted versions of single file */
+  done();
+}).catch(function(err){
+  /* err */
+});
+
+/*
+Result:
+{ Deleted:
+   [ { Key: 'upload-test.txt',
+       VersionId: 'abc...' } ],
+  Errors: [] }
+*/
+```
+
+### Delete Specific Versions from files
+
+```js
+bucket.deleteFilesVersioned({
+  files: [{
+      Key: 'upload-test.txt',
+      // 'null' means latest version
+      VersionId: 'null'
+    }, {
+      // you can repeat the same file
+      Key: 'upload-test.txt',
+      VersionId: 'abc...'
+    }, {
+      // several times
+      Key: 'upload-test.txt',
+      VersionId: 'def...'
+    }, {
+      // OR you can mix passing multiple files and versions
+      Key: 'other-file.txt',
+      VersionId: 'ghi...'
+  }]
+}).then(function(res){
+  /* res.Deleted => Deleted versions and files specified */
+  done();
+}).catch(function(err){
+  /* err */
+});
+
+/*
+Result:
+{ Deleted:
+   [ { Key: 'upload-test.txt',
+       VersionId: 'abc...' } ],
+  Errors: [] }
+*/
+```
+
+### Get All buckets
+
+Get All buckets for this account
+
+```js
+bucket.getAllBuckets().then(function(res) {
+  /* Buckets => res.Buckets */
+}).catch(function(err) {
+  /* err */
+});
+
+/*
+Result:
+{
+  Buckets:
+   [ { Name: 'my-bucket',
+       CreationDate: 2018-03-19T17:49:05.000Z } ],
+  Owner:
+   { DisplayName: 'cris',
+     ID: '...' }
+}
+*/
+
+```
+
 
 ## References
 
