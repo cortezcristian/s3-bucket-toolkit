@@ -105,6 +105,10 @@ describe('AWS Bucket', function() {
 
   });
 
+  it('delete all markers for file');
+  it('delete all markers and versions for file');
+  it('resolve listing pagination truncated');
+
   it.skip('delete file versions', function(done) {
     // console.log('vers', versions);
     bucket.deleteFilesVersioned({
