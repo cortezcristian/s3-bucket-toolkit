@@ -67,6 +67,36 @@ bucket.uploadFile({
 */
 ```
 
+### Upload Multiple Files 
+
+```js
+bucket.uploadMultipleFiles({
+  files: [{
+    filePath: './test/upload-test-1.txt',
+    Key: 'upload-test-1.txt'
+  }, {
+    filePath: './test/upload-test-2.txt',
+    Key: 'upload-test-2.txt'
+  }]
+}).then(function(res){
+  /* res => Array of file upload status responses */
+}).catch(function(err){
+  /* err */
+});
+
+/*
+ Result:
+[ { response:
+   { ETag: '"abc..."',
+     VersionId: '123..' },
+  url: 'https://your-bucket.s3.amazonaws.com/upload-test-1.txt' },
+{ response:
+   { ETag: '"def.."',
+     VersionId: '456...' },
+  url: 'https://your-bucket.s3.amazonaws.com/upload-test-2.txt' } ]
+*/
+```
+
 ### List Files
 
 ```js
