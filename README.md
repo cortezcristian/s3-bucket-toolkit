@@ -236,4 +236,5 @@ Result:
 ## References
 
 - [AWS Docs: listObjectVersions](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectVersions-property)
+- [Delete all versions of all files in s3 versioned bucket using AWS CLI and jq.](https://gist.github.com/weavenet/f40b09847ac17dd99d16)
 
