@@ -167,6 +167,27 @@ describe('AWS Bucket', function() {
 
   it('resolve listing pagination truncated');
 
+  it('upload multiple files', function(done) {
+    var files = [], totalFiles = 9, i;
+    for (i = 1; i <= totalFiles; i++) {
+      files.push({
+        filePath: './test/upload-test.txt',
+        Key: `upload-test-${i}.txt`
+      });
+    }
+    // console.log(files);
+    bucket.uploadMultipleFiles({
+      files: files
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res !== 'undefined', 'Response was expected');
+      assert.equal(res.length, totalFiles, `${totalFiles} were expected`);
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
   it.skip('delete specific files and versions combinations', function(done) {
     // console.log('vers', versions);
     bucket.deleteFilesVersioned({
