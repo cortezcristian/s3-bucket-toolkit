@@ -68,14 +68,25 @@ describe('AWS Bucket', function() {
     });
   });
 
-  it('list file versions', function(done) {
-    bucket.listFileVersions({
+  it('delete file', function(done) {
+    bucket.deleteFiles({
+        files: ['upload-test.txt']
+      }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted contents were expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('upload file again', function(done) {
+    bucket.uploadFile({
+      filePath: './test/upload-test.txt',
       Key: 'upload-test.txt'
     }).then(function(res){
-      assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
-      // reuse when deleting file versions
-      versions = res.Versions;
-      // console.log(versions);
+      assert.ok(typeof res.url === 'string', 'S3 upload url was expected');
+      assert.ok(typeof res.response !== 'undefined', 'S3 upload response was expected');
       done();
     }).catch(function(err){
       done(err);
@@ -84,7 +95,27 @@ describe('AWS Bucket', function() {
 
   it('list files', function(done) {
     bucket.listFiles().then(function(res){
+      // console.log(res);
       assert.ok(typeof res.Contents !== 'undefined', 'Bucket contents were expected');
+      assert.ok(res.Contents.length >= 1, 'Bucket should have at least one file');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('list file versions and markers', function(done) {
+    bucket.listFileVersions({
+      Key: 'upload-test.txt'
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
+      assert.ok(typeof res.DeleteMarkers !== 'undefined', 'File DeleteMarkers were expected');
+      assert.equal(res.Versions.length, 2, 'Two Versions were expected');
+      assert.equal(res.DeleteMarkers.length, 1, 'One Delete Marker was expected');
+      // reuse when deleting file versions
+      versions = res.Versions;
+      // console.log(versions);
       done();
     }).catch(function(err){
       done(err);
@@ -98,14 +129,45 @@ describe('AWS Bucket', function() {
     }).then(function(res){
       // console.log(res);
       assert.ok(typeof res.Deleted !== 'undefined', 'Deleted versions were expected');
+      assert.equal(res.Deleted.length, 2, 'Two deleted Versions were expected');
       done();
     }).catch(function(err){
       done(err);
     });
-
   });
 
-  it.skip('delete file versions', function(done) {
+  it('delete all markers for file', function(done) {
+    // console.log('vers', versions);
+    bucket.deleteAllMarkers({
+      Key: 'upload-test.txt',
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted versions were expected');
+      assert.equal(res.Deleted.length, 1, 'One deleted marker was expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('delete all markers and versions for file', function(done) {
+    // console.log('vers', versions);
+    bucket.deleteAllVersionsAndMarkers({
+      Key: 'upload-test.txt',
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted versions were expected');
+      // There shuold not be deletions as previous test cases
+      assert.equal(res.Deleted.length, 0, 'No deleted versions or markers were expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('resolve listing pagination truncated');
+
+  it.skip('delete specific files and versions combinations', function(done) {
     // console.log('vers', versions);
     bucket.deleteFilesVersioned({
       files: [{
@@ -121,18 +183,6 @@ describe('AWS Bucket', function() {
       done(err);
     });
 
-  });
-
-  it.skip('delete file', function(done) {
-    bucket.deleteFiles({
-        files: ['upload-test.txt']
-      }).then(function(res){
-      // console.log(res);
-      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted contents were expected');
-      done();
-    }).catch(function(err){
-      done(err);
-    });
   });
 
 });

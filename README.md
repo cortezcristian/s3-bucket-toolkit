@@ -170,6 +170,34 @@ Result:
 */
 ```
 
+### Delete All Markers from a Single File
+
+Delete all Markers for a given file
+
+```js
+bucket.deleteAllMarkers({
+  Key: 'upload-test.txt',
+}).then(function(res){
+  /* res.Deleted => Deleted markers of single file */
+}).catch(function(err){
+  /* err */
+});
+```
+
+### Delete All Versions and Markers from a Single File
+
+Delete all Versions and Markers for a given file
+
+```js
+bucket.deleteAllVersionsAndMarkers({
+  Key: 'upload-test.txt',
+}).then(function(res){
+  /* res.Deleted => Deleted versions and markers of single file */
+}).catch(function(err){
+  /* err */
+});
+```
+
 ### Delete Specific Versions from files
 
 ```js
@@ -236,4 +264,5 @@ Result:
 ## References
 
 - [AWS Docs: listObjectVersions](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectVersions-property)
+- [Delete all versions of all files in s3 versioned bucket using AWS CLI and jq.](https://gist.github.com/weavenet/f40b09847ac17dd99d16)
 
