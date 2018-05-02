@@ -157,6 +157,8 @@ describe('AWS Bucket', function() {
     }).then(function(res){
       // console.log(res);
       assert.ok(typeof res.Deleted !== 'undefined', 'Deleted versions were expected');
+      // There shuold not be deletions as previous test cases
+      assert.equal(res.Deleted.length, 0, 'No deleted versions or markers were expected');
       done();
     }).catch(function(err){
       done(err);
