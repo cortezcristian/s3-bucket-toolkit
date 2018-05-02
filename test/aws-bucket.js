@@ -68,6 +68,17 @@ describe('AWS Bucket', function() {
     });
   });
 
+  it('list file versions', function(done) {
+    bucket.listFileVersions({
+      Key: 'upload-test.txt'
+    }).then(function(res){
+      assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
   it('list files', function(done) {
     bucket.listFiles().then(function(res){
       assert.ok(typeof res.Contents !== 'undefined', 'Bucket contents were expected');

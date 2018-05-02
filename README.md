@@ -92,6 +92,41 @@ bucket.uploadFile({
 */
 ```
 
+### List File Versions
+
+Calls `s3.listObjectVersions` for file path Prefix
+
+```js
+bucket.listFileVersions({
+  Key: 'upload-test.txt'
+}).then(function(res){
+  /* res.Versions => Versions found */
+}).catch(function(err){
+  /* err */
+});
+
+/*
+Result:
+{ IsTruncated: false,
+  KeyMarker: '',
+  VersionIdMarker: '',
+  Versions:
+   [ { ETag: '"abc..."',
+       Size: 44,
+       StorageClass: 'STANDARD',
+       Key: 'upload-test.txt',
+       VersionId: 'null',
+       IsLatest: true,
+       LastModified: 2018-05-02T12:53:29.000Z,
+       Owner: [Object] } ],
+  DeleteMarkers: [],
+  Name: 'your-bucket',
+  Prefix: 'upload-test.txt',
+  MaxKeys: 1000,
+  CommonPrefixes: [] }
+*/
+```
+
 ### List Files
 
 ```js
@@ -137,7 +172,7 @@ Result:
 */
 ```
 
-## References
+## References
 
 - [AWS Docs: listObjectVersions](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectVersions-property)
 
