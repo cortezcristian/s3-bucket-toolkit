@@ -170,6 +170,34 @@ Result:
 */
 ```
 
+### Delete All Markers from a Single File
+
+Delete all Markers for a given file
+
+```js
+bucket.deleteAllMarkers({
+  Key: 'upload-test.txt',
+}).then(function(res){
+  /* res.Deleted => Deleted markers of single file */
+}).catch(function(err){
+  /* err */
+});
+```
+
+### Delete All Versions and Markers from a Single File
+
+Delete all Versions and Markers for a given file
+
+```js
+bucket.deleteAllVersionsAndMarkers({
+  Key: 'upload-test.txt',
+}).then(function(res){
+  /* res.Deleted => Deleted versions and markers of single file */
+}).catch(function(err){
+  /* err */
+});
+```
+
 ### Delete Specific Versions from files
 
 ```js
