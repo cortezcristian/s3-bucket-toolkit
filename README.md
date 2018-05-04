@@ -25,7 +25,8 @@ const bucket = new AWSBucket({
   secretAccessKey: 'your-secret-here',
   region: 'us-east-1',
   bucketACL: 'public-read',
-  bucketName: 'my-bucket'
+  bucketName: 'my-bucket',
+  pagingDelay: 500, // (optional) set a global delay in between s3 api calls, default: 500ms
 });
 
 ```
@@ -165,11 +166,13 @@ Result:
 
 ### List File Versions
 
-Calls `s3.listObjectVersions` for file path Prefix
+The param Key is being replaced internally in fovor of Prefix, see the docs [s3.listObjectVersions](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectVersions-property)
 
 ```js
 bucket.listFileVersions({
-  Key: 'upload-test.txt'
+  Key: 'upload-test-versioned.txt', // file versioned key or prefix (mandatory)
+  limit: 2, // items per page by default 1000 (optional)
+  delay: 10, // delay between pages by default 500 (optional)
 }).then(function(res){
   /* res.Versions => Versions found */
 }).catch(function(err){
@@ -178,9 +181,7 @@ bucket.listFileVersions({
 
 /*
 Result:
-{ IsTruncated: false,
-  KeyMarker: '',
-  VersionIdMarker: '',
+{
   Versions:
    [ { ETag: '"abc..."',
        Size: 44,
@@ -190,11 +191,8 @@ Result:
        IsLatest: true,
        LastModified: 2018-05-02T12:53:29.000Z,
        Owner: [Object] } ],
-  DeleteMarkers: [],
-  Name: 'your-bucket',
-  Prefix: 'upload-test.txt',
-  MaxKeys: 1000,
-  CommonPrefixes: [] }
+  DeleteMarkers: []
+}
 */
 ```
 

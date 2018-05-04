@@ -1,4 +1,5 @@
 var assert = require('assert');
+var Promise = require('bluebird');
 var AWSBucket = require('../lib/bucket.js');
 var bucket, versions;
 // Config
@@ -221,6 +222,39 @@ describe('AWS Bucket', function() {
 
   });
 
-  it('resolve version pagination truncated');
+  it('upload multiple versions of the same file', function(done) {
+    var uploadsQueue = [], totalVersions = 5, i;
+    for (i = 1; i <= totalVersions; i++) {
+      uploadsQueue.push(function() {
+        return bucket.uploadFile({
+          filePath: './test/upload-test.txt',
+          Key: 'upload-test-versioned.txt'
+        });
+      });
+    }
+
+    Promise.resolve(uploadsQueue).mapSeries(f => f()).then(function(res) {
+      assert.ok(typeof res !== 'undefined', 'Response was expected');
+      assert.equal(res.length, totalVersions, `${totalVersions} upload operations were expected`);
+      done();
+    }).catch(done);
+  });
+
+  it('list paged versions for a single file', function(done) {
+    bucket.listFileVersions({
+      Key: 'upload-test-versioned.txt', // file versioned key or prefix (mandatory)
+      limit: 2, // items per page by default 1000 (optional)
+      delay: 10, // delay between pages by default 500 (optional)
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
+      assert.ok(typeof res.DeleteMarkers !== 'undefined', 'File DeleteMarkers were expected');
+      assert.ok(res.Versions.length >= 5, 'At least 5 Versions were expected');
+      assert.equal(res.DeleteMarkers.length, 0, 'No Delete Marker was expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
 
 });
