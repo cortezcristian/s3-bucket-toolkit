@@ -25,7 +25,8 @@ const bucket = new AWSBucket({
   secretAccessKey: 'your-secret-here',
   region: 'us-east-1',
   bucketACL: 'public-read',
-  bucketName: 'my-bucket'
+  bucketName: 'my-bucket',
+  pagingDelay: 500, // (optional) set a global delay in between s3 api calls, default: 500ms
 });
 
 ```
