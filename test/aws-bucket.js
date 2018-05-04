@@ -249,7 +249,7 @@ describe('AWS Bucket', function() {
       // console.log(res);
       assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
       assert.ok(typeof res.DeleteMarkers !== 'undefined', 'File DeleteMarkers were expected');
-      assert.ok(res.Versions.length > 5, 'More than 5 Versions were expected');
+      assert.ok(res.Versions.length >= 5, 'At least 5 Versions were expected');
       assert.equal(res.DeleteMarkers.length, 0, 'No Delete Marker was expected');
       done();
     }).catch(function(err){
