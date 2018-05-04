@@ -240,15 +240,7 @@ describe('AWS Bucket', function() {
     }).catch(done);
   });
 
-  it.only('list paged versions for a single file', function(done) {
-    bucket = new AWSBucket({
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_ACCESS_KEY_SECRET,
-      region: AWS_BUCKET_REGION,
-      bucketACL: AWS_BUCKET_ACL,
-      bucketName: AWS_BUCKET_NAME
-    });
-
+  it('list paged versions for a single file', function(done) {
     bucket.listFileVersions({
       Key: 'upload-test-versioned.txt', // file versioned key or prefix (mandatory)
       limit: 2, // items per page by default 1000 (optional)
