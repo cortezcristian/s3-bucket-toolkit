@@ -222,16 +222,8 @@ describe('AWS Bucket', function() {
 
   });
 
-  it.only('upload multiple versions of the same file', function(done) {
+  it('upload multiple versions of the same file', function(done) {
     var uploadsQueue = [], totalVersions = 5, i;
-    bucket = new AWSBucket({
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_ACCESS_KEY_SECRET,
-      region: AWS_BUCKET_REGION,
-      bucketACL: AWS_BUCKET_ACL,
-      bucketName: AWS_BUCKET_NAME
-    });
-
     for (i = 1; i <= totalVersions; i++) {
       uploadsQueue.push(function() {
         return bucket.uploadFile({
@@ -248,6 +240,29 @@ describe('AWS Bucket', function() {
     }).catch(done);
   });
 
-  it('resolve version pagination truncated');
+  it.only('list paged versions for a single file', function(done) {
+    bucket = new AWSBucket({
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_ACCESS_KEY_SECRET,
+      region: AWS_BUCKET_REGION,
+      bucketACL: AWS_BUCKET_ACL,
+      bucketName: AWS_BUCKET_NAME
+    });
+
+    bucket.listFileVersions({
+      Key: 'upload-test-versioned.txt', // file versioned key or prefix (mandatory)
+      limit: 2, // items per page by default 1000 (optional)
+      delay: 10, // delay between pages by default 500 (optional)
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
+      assert.ok(typeof res.DeleteMarkers !== 'undefined', 'File DeleteMarkers were expected');
+      assert.ok(res.Versions.length > 5, 'More than 5 Versions were expected');
+      assert.equal(res.DeleteMarkers.length, 0, 'No Delete Marker was expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
 
 });

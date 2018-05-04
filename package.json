@@ -36,6 +36,8 @@
     "recursively",
     "ContinuationToken",
     "NextContinuationToken",
+    "NextKeyMarker",
+    "NextVersionIdMarker",
     "remove",
     "delete"
   ],
