@@ -94,16 +94,7 @@ describe('AWS Bucket', function() {
   });
 
 
-  describe.only('listing', function() {
-
   it('list paged files', function(done) {
-    bucket = new AWSBucket({
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_ACCESS_KEY_SECRET,
-      region: AWS_BUCKET_REGION,
-      bucketACL: AWS_BUCKET_ACL,
-      bucketName: AWS_BUCKET_NAME
-    });
     bucket.listPagedFiles({
       limit: 2, // by default 1000
     }).then(function(res){
@@ -114,28 +105,6 @@ describe('AWS Bucket', function() {
     }).catch(function(err){
       done(err);
     });
-  });
-
-  it('list all files', function(done) {
-    bucket = new AWSBucket({
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_ACCESS_KEY_SECRET,
-      region: AWS_BUCKET_REGION,
-      bucketACL: AWS_BUCKET_ACL,
-      bucketName: AWS_BUCKET_NAME
-    });
-    bucket.listFiles({
-      limit: 2, // by default 1000
-    }).then(function(files){
-      // console.log(files);
-      assert.ok(typeof files !== 'undefined', 'Files were expected');
-      assert.ok(files.length >= 9, 'Bucket should have at least one file');
-      done();
-    }).catch(function(err){
-      done(err);
-    });
-  });
-
   });
 
   it('list file versions and markers', function(done) {
@@ -199,8 +168,6 @@ describe('AWS Bucket', function() {
     });
   });
 
-  it('resolve listing pagination truncated');
-
   it('upload multiple files', function(done) {
     var files = [], totalFiles = 9, i;
     for (i = 1; i <= totalFiles; i++) {
@@ -216,6 +183,20 @@ describe('AWS Bucket', function() {
       // console.log(res);
       assert.ok(typeof res !== 'undefined', 'Response was expected');
       assert.equal(res.length, totalFiles, `${totalFiles} were expected`);
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('list all files', function(done) {
+    bucket.listFiles({
+      limit: 2, // items per page by default 1000
+      delay: 10, // delay between pages by default 500
+    }).then(function(files){
+      // console.log(files);
+      assert.ok(typeof files !== 'undefined', 'Files were expected');
+      assert.ok(files.length >= 9, 'Bucket should have at least one file');
       done();
     }).catch(function(err){
       done(err);
@@ -239,5 +220,7 @@ describe('AWS Bucket', function() {
     });
 
   });
+
+  it('resolve version pagination truncated');
 
 });
