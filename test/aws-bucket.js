@@ -1,4 +1,5 @@
 var assert = require('assert');
+var Promise = require('bluebird');
 var AWSBucket = require('../lib/bucket.js');
 var bucket, versions;
 // Config
@@ -219,6 +220,32 @@ describe('AWS Bucket', function() {
       done(err);
     });
 
+  });
+
+  it.only('upload multiple versions of the same file', function(done) {
+    var uploadsQueue = [], totalVersions = 5, i;
+    bucket = new AWSBucket({
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_ACCESS_KEY_SECRET,
+      region: AWS_BUCKET_REGION,
+      bucketACL: AWS_BUCKET_ACL,
+      bucketName: AWS_BUCKET_NAME
+    });
+
+    for (i = 1; i <= totalVersions; i++) {
+      uploadsQueue.push(function() {
+        return bucket.uploadFile({
+          filePath: './test/upload-test.txt',
+          Key: 'upload-test-versioned.txt'
+        });
+      });
+    }
+
+    Promise.resolve(uploadsQueue).mapSeries(f => f()).then(function(res) {
+      assert.ok(typeof res !== 'undefined', 'Response was expected');
+      assert.equal(res.length, totalVersions, `${totalVersions} upload operations were expected`);
+      done();
+    }).catch(done);
   });
 
   it('resolve version pagination truncated');
