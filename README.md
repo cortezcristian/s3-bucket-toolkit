@@ -1,5 +1,5 @@
-# s3-bucket-version
-[![CircleCI](https://circleci.com/gh/cortezcristian/s3-bucket-version/tree/master.svg?style=svg)](https://circleci.com/gh/cortezcristian/s3-bucket-version/tree/master)
+# s3-bucket-toolkit
+[![CircleCI](https://circleci.com/gh/cortezcristian/s3-bucket-toolkit/tree/master.svg?style=svg)](https://circleci.com/gh/cortezcristian/s3-bucket-toolkit/tree/master)
 
 S3 Bucket Version made easy
 
@@ -12,13 +12,13 @@ S3 Bucket Version made easy
 ## Install
 
 ```bash
-$ npm i s3-bucket-version --save
+$ npm i s3-bucket-toolkit --save
 ```
 
 ## Configure
 
 ```js
-const AWSBucket = require('s3-bucket-version');
+const AWSBucket = require('s3-bucket-toolkit');
 
 const bucket = new AWSBucket({
   accessKeyId: 'your-access-key-here',

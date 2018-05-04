@@ -1,5 +1,5 @@
 {
-  "name": "s3-bucket-version",
+  "name": "s3-bucket-toolkit",
   "version": "0.0.8",
   "description": "S3 Bucket Listing and Versioning made easy",
   "main": "lib/bucket.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cortezcristian/s3-bucket-version.git"
+    "url": "git+https://github.com/cortezcristian/s3-bucket-toolkit.git"
   },
   "keywords": [
     "S3",
@@ -44,9 +44,9 @@
   "author": "Cristian Cortez",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cortezcristian/s3-bucket-version/issues"
+    "url": "https://github.com/cortezcristian/s3-bucket-toolkit/issues"
   },
-  "homepage": "https://github.com/cortezcristian/s3-bucket-version#readme",
+  "homepage": "https://github.com/cortezcristian/s3-bucket-toolkit#readme",
   "dependencies": {
     "aws-sdk": "^2.229.1",
     "bluebird": "^3.5.1"
