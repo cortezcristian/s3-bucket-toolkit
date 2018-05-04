@@ -3,6 +3,12 @@
 
 S3 Bucket Version made easy
 
+- Provide Promisified AWS API methods
+- Use recommended listObjectsV2
+- Paginate or list all items from the bucket
+- Upload multiple files
+- Delete all Versions and Markers from a particular file
+
 ## Install
 
 ```bash
@@ -100,6 +106,39 @@ bucket.uploadMultipleFiles({
 ### List Files
 
 ```js
+bucket.listFiles({
+  limit: 2, // items per page by default 1000 (optional)
+  delay: 10, // delay between pages by default 500 (optional)
+}).then(function(files){
+  /* files => array containing all files from the bucket */
+}).catch(function(err){
+  /* err */
+});
+
+/*
+Result:
+[ { Key: 'upload-test-1.txt',
+    LastModified: 2018-05-04T06:49:48.000Z,
+    ETag: '"abc..."',
+    Size: 44,
+    StorageClass: 'STANDARD' },
+  { Key: 'upload-test-2.txt',
+    LastModified: 2018-05-04T06:49:49.000Z,
+    ETag: '"def..."',
+    Size: 44,
+    StorageClass: 'STANDARD' },
+    ...
+]
+*/
+```
+
+### List Paged Files
+
+Pagination, see more parameters [listObjectsV2 docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
+
+```js
+bucket.listPagedFiles({
+  limit: 2, // optional items per page is a custom implementation of MaxKeys by default 1000
 bucket.listFiles().then(function(res){
   /* res.contents => bucket contents */
 }).catch(function(err){
