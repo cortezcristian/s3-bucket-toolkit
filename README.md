@@ -3,6 +3,12 @@
 
 S3 Bucket Version made easy
 
+- Provide Promisified AWS API methods
+- Use recommended listObjectsV2
+- Paginate or list all items from the bucket
+- Upload multiple files
+- Delete all Versions and Markers from a particular file
+
 ## Install
 
 ```bash

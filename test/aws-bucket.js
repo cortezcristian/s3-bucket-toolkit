@@ -93,8 +93,20 @@ describe('AWS Bucket', function() {
     });
   });
 
-  it('list files', function(done) {
-    bucket.listFiles().then(function(res){
+
+  describe.only('listing', function() {
+
+  it('list paged files', function(done) {
+    bucket = new AWSBucket({
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_ACCESS_KEY_SECRET,
+      region: AWS_BUCKET_REGION,
+      bucketACL: AWS_BUCKET_ACL,
+      bucketName: AWS_BUCKET_NAME
+    });
+    bucket.listPagedFiles({
+      limit: 2, // by default 1000
+    }).then(function(res){
       // console.log(res);
       assert.ok(typeof res.Contents !== 'undefined', 'Bucket contents were expected');
       assert.ok(res.Contents.length >= 1, 'Bucket should have at least one file');
@@ -102,6 +114,28 @@ describe('AWS Bucket', function() {
     }).catch(function(err){
       done(err);
     });
+  });
+
+  it('list all files', function(done) {
+    bucket = new AWSBucket({
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_ACCESS_KEY_SECRET,
+      region: AWS_BUCKET_REGION,
+      bucketACL: AWS_BUCKET_ACL,
+      bucketName: AWS_BUCKET_NAME
+    });
+    bucket.listFiles({
+      limit: 2, // by default 1000
+    }).then(function(files){
+      // console.log(files);
+      assert.ok(typeof files !== 'undefined', 'Files were expected');
+      assert.ok(files.length >= 9, 'Bucket should have at least one file');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
   });
 
   it('list file versions and markers', function(done) {
