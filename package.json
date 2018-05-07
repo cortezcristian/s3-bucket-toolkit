@@ -38,6 +38,9 @@
     "NextContinuationToken",
     "NextKeyMarker",
     "NextVersionIdMarker",
+    "tool",
+    "kit",
+    "toolkit",
     "remove",
     "delete"
   ],

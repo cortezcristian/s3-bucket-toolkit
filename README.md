@@ -1,7 +1,7 @@
 # s3-bucket-toolkit
 [![CircleCI](https://circleci.com/gh/cortezcristian/s3-bucket-toolkit/tree/master.svg?style=svg)](https://circleci.com/gh/cortezcristian/s3-bucket-toolkit/tree/master)
 
-S3 Bucket Version made easy
+S3 Bucket APIs calls made easy
 
 - Provide Promisified AWS API methods
 - Use recommended listObjectsV2
@@ -55,7 +55,7 @@ Result:
 */
 ```
 
-### Upload File 
+### Upload File
 
 ```js
 bucket.uploadFile({
@@ -74,7 +74,7 @@ bucket.uploadFile({
 */
 ```
 
-### Upload Multiple Files 
+### Upload Multiple Files
 
 ```js
 bucket.uploadMultipleFiles({
@@ -196,7 +196,7 @@ Result:
 */
 ```
 
-### Delete Files 
+### Delete Files
 
 ```js
 bucket.deleteFiles({
