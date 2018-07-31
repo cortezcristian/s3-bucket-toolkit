@@ -1,6 +1,6 @@
 {
   "name": "s3-bucket-toolkit",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "S3 Bucket Listing and Versioning removal made easy",
   "main": "lib/bucket.js",
   "scripts": {
