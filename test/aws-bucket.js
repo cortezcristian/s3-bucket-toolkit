@@ -1,7 +1,7 @@
 var assert = require('assert');
 var Promise = require('bluebird');
 var AWSBucket = require('../lib/bucket.js');
-var bucket, versions;
+var bucket, versions, object_key;
 // Config
 var AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || '';
 var AWS_ACCESS_KEY_SECRET = process.env.AWS_ACCESS_KEY_SECRET || '';
@@ -63,6 +63,21 @@ describe('AWS Bucket', function() {
     }).then(function(res){
       assert.ok(typeof res.url === 'string', 'S3 upload url was expected');
       assert.ok(typeof res.response !== 'undefined', 'S3 upload response was expected');
+      object_key = res.url;
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('copy file', function(done) {
+    bucket.copyFile({
+      CopySource: object_key,
+      Key: object_key.replace(/.txt$/, '-copied.txt')
+    }).then(function(res){
+      // console.log('res -> ', res);
+      assert.ok(typeof res.url === 'string', 'S3 copy url was expected');
+      assert.ok(typeof res.response !== 'undefined', 'S3 copy response was expected');
       done();
     }).catch(function(err){
       done(err);

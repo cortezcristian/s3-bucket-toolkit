@@ -74,6 +74,25 @@ bucket.uploadFile({
 */
 ```
 
+### Copy File
+
+```js
+bucket.copyFile({
+  CopySource: 'upload-test.txt',
+  Key: 'upload-test-copied.txt'
+}).then(function(res){
+  /* res.url => S3 copy url */
+}).catch(function(err){
+  /* err */
+});
+
+/*
+ Result:
+{ response: { ETag: '"abc..."', CopySourceVersionId: 'def...', CopyObjectResult: { ... } },
+  url: 'https://your-bucket-name.s3.amazonaws.com/upload-test-copied.txt' } }
+*/
+```
+
 ### Upload Multiple Files
 
 ```js
