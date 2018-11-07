@@ -73,7 +73,7 @@ describe('AWS Bucket', function() {
   it('copy file', function(done) {
     bucket.copyFile({
       CopySource: object_key,
-      Key: object_key.replace(/.txt$/, '-copied.txt')
+      Key: 'upload-test-copied1.txt'
     }).then(function(res){
       // console.log('res -> ', res);
       assert.ok(typeof res.url === 'string', 'S3 copy url was expected');
@@ -87,11 +87,41 @@ describe('AWS Bucket', function() {
   it('copy file (autocomplete prefix)', function(done) {
     bucket.copyFile({
       CopySource: 'upload-test.txt',
-      Key: 'upload-test-copied.txt'
+      Key: 'upload-test-copied2.txt'
     }, true).then(function(res){
       // console.log('res -> ', res);
       assert.ok(typeof res.url === 'string', 'S3 copy url was expected');
       assert.ok(typeof res.response !== 'undefined', 'S3 copy response was expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('list copied file versions and markers', function(done) {
+    bucket.listFileVersions({
+      Key: 'upload-test-copied2.txt'
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Versions !== 'undefined', 'File Versions were expected');
+      assert.ok(typeof res.DeleteMarkers !== 'undefined', 'File DeleteMarkers were expected');
+      assert.equal(res.Versions.length, 1, 'One Version was expected');
+      assert.equal(res.DeleteMarkers.length, 0, 'No Delete Markers were expected');
+      // reuse when deleting file versions
+      versions = res.Versions;
+      // console.log(versions);
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
+  it('delete copied file and wipeout versions', function(done) {
+    bucket.deleteAllVersionsAndMarkers({
+      Key: 'upload-test-copied2.txt'
+    }).then(function(res){
+      // console.log(res);
+      assert.ok(typeof res.Deleted !== 'undefined', 'Deleted contents were expected');
       done();
     }).catch(function(err){
       done(err);
