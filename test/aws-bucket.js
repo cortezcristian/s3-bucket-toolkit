@@ -84,6 +84,20 @@ describe('AWS Bucket', function() {
     });
   });
 
+  it('copy file (autocomplete prefix)', function(done) {
+    bucket.copyFile({
+      CopySource: 'upload-test.txt',
+      Key: 'upload-test-copied.txt'
+    }, true).then(function(res){
+      // console.log('res -> ', res);
+      assert.ok(typeof res.url === 'string', 'S3 copy url was expected');
+      assert.ok(typeof res.response !== 'undefined', 'S3 copy response was expected');
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+  });
+
   it('delete file', function(done) {
     bucket.deleteFiles({
         files: ['upload-test.txt']
