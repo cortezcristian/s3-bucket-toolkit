@@ -76,11 +76,14 @@ bucket.uploadFile({
 
 ### Copy File
 
+`copyFile(Object, Boolean)` function can copy files between buckets or in the same bucket. Pass a second parameter as true when copying files inside the same bucket (will automatically append the bucket prefix). Otherwise pass the entire bucket URL.
+
+
 ```js
 bucket.copyFile({
   CopySource: 'upload-test.txt',
   Key: 'upload-test-copied.txt'
-}).then(function(res){
+}, true).then(function(res){
   /* res.url => S3 copy url */
 }).catch(function(err){
   /* err */
